@@ -7,8 +7,8 @@ Fan Wun Ming is a Simplified-Chinese-to-Traditional-Chinese font based on [GenYo
 
 ## Design 設計
 
-See [_Correctly Implement a Simplified-Chinese-To-Traditional-Chinese Font_](https://ayaka.shn.hk/s2tfont/) (in Simplified Chinese).<br/>
-參見[《正確實現簡轉繁字型》](https://ayaka.shn.hk/s2tfont/)（原文為簡體中文）。
+See [_Correctly Implement a Simplified-Chinese-To-Traditional-Chinese Font_](https://ayaka.shn.hk/s2tfont/hant/) (in Chinese).<br/>
+參見[《正確實現簡轉繁字型》](https://ayaka.shn.hk/s2tfont/hant/)。
 
 ## Download 下載
 
@@ -19,3 +19,8 @@ See [release page](https://github.com/ayaka14732/FanWunMing/releases).<br/>
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.<br/>
 本字型以 SIL Open Font License 版本 1.1 發佈。
+
+## Help wanted 徵求協助
+
+I hope to add a script to automate the build process.<br/>
+我希望添加一個腳本以自動化構建。
