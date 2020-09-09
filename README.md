@@ -3,7 +3,7 @@
 ![](demo.png)
 
 Fan Wun Ming is a Simplified-Chinese-to-Traditional-Chinese font based on [GenYoMin](https://github.com/ButTaiwan/genyo-font). This font can handle the one-to-many problem in the conversion between Simplified Chinese and Traditional Chinese. GenYoMin itself is a free font based on Source Han Serif.<br/>
-「繁媛明朝」是基于[源樣明體](https://github.com/ButTaiwan/genyo-font)開發的簡轉繁字型，能處理「一簡對多繁」。源樣明體是基於思源宋體的開放原始碼字型。
+「繁媛明朝」是基於[源樣明體](https://github.com/ButTaiwan/genyo-font)開發的簡轉繁字型，能處理「一簡對多繁」。源樣明體是基於思源宋體的開放原始碼字型。
 
 ## Design 設計
 
