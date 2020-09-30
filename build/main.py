@@ -3,15 +3,16 @@ from datetime import date
 from glob import glob
 from itertools import chain
 import json
+from opencc import OpenCC
 import os
 import subprocess
 
-FONT_VERSION = 1.001
+FONT_VERSION = 1.002
 
 # Define the max entries size in a subtable.
 # We define a number that is small enough here, so that the entries will not exceed
 # the size limit.
-SUBTABLE_MAX_COUNT = 5000
+SUBTABLE_MAX_COUNT = 4000
 
 # This function is used to split a GSUB table into several subtables.
 def grouper(lst, n, start=0):
@@ -27,11 +28,16 @@ def grouper(lst, n, start=0):
 def prepare_files():
 	'''Download necessary files for the next steps.'''
 	os.system('mkdir -p output')
-	os.system('wget -nc -P cache https://github.com/ButTaiwan/genyo-font/releases/download/v1.501/GenYoMin.zip')
-	os.system('wget -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STCharacters.txt')
-	os.system('wget -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STPhrases.txt')
-	os.system('wget -nc -P cache https://gist.githubusercontent.com/fatum12/941a10f31ac1ad48ccbc/raw/59d7e29b307ae3439317a975ef390cd729f9bc17/ttc2ttf.pe')
-	os.system('wget -nc -P cache https://raw.githubusercontent.com/rime-aca/character_set/e7d009a8a185a83f62ad2c903565b8bb85719221/通用規範漢字表.txt')
+	os.system('wget -q -nc -P cache https://github.com/ButTaiwan/genyo-font/releases/download/v1.501/GenYoMin.zip')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STCharacters.txt')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STPhrases.txt')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesIT.txt')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesName.txt')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesOther.txt')
+	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWVariants.txt')
+	os.system('cat cache/TWPhrasesIT.txt cache/TWPhrasesName.txt cache/TWPhrasesOther.txt > cache/TWPhrases.txt')
+	os.system('wget -q -nc -P cache https://gist.githubusercontent.com/fatum12/941a10f31ac1ad48ccbc/raw/59d7e29b307ae3439317a975ef390cd729f9bc17/ttc2ttf.pe')
+	os.system('wget -q -nc -P cache https://raw.githubusercontent.com/rime-aca/character_set/e7d009a8a185a83f62ad2c903565b8bb85719221/通用規範漢字表.txt')
 	os.system('unzip -n -d cache cache/GenYoMin.zip')
 
 # An opentype font can hold at most 65535 glyphs.
@@ -100,17 +106,19 @@ def build_codepoints_non_han():
 # We restrict the Simplified Chinese characters (on the left side of the OpenCC dictionary
 # file) to the range of Tongyong Guifan Hanzi Biao, and discard those conversions that are
 # out of range. The remained conversions are stored in the entries variable.
+#
 # Then we calculate the range of “Which Traditional Chinese characters are needed if we
 # convert Tongyong Guifan Hanzi Biao to Traditional Chinese”. The range is stored in the
 # codepoints variable.
-def build_opencc_char_table(codepoints_tonggui, codepoints_font):
+def build_opencc_char_table(codepoints_tonggui, codepoints_font, twp=False):
 	entries = []
 	codepoints = set()
 
-	with open('cache/STCharacters.txt') as f:
+	with open('cache/STCharacters.txt') as f:  # s2t
 		for line in f:
 			k, vx = line.rstrip('\n').split('\t')
 			v = vx.split(' ')[0]  # Only select the first candidate
+			v = t2twp(v) if twp else v  # s2t -> s2twp
 			codepoint_k = ord(k)
 			codepoint_v = ord(v)
 			if codepoint_k in codepoints_tonggui and codepoint_v in codepoints_font:
@@ -119,22 +127,37 @@ def build_opencc_char_table(codepoints_tonggui, codepoints_font):
 
 	return entries, codepoints
 
-def build_opencc_word_table(codepoints_tonggui, codepoints_font):
-	entries = []
+def build_opencc_word_table(codepoints_tonggui, codepoints_font, twp=False):
+	entries = {}
 	codepoints = set()
 
-	with open('cache/STPhrases.txt') as f:
+	with open('cache/STPhrases.txt') as f:  # s2t
 		for line in f:
 			k, vx = line.rstrip('\n').split('\t')
 			v = vx.split(' ')[0]  # Only select the first candidate
-			codepoints_k = [ord(c) for c in k]
-			codepoints_v = [ord(c) for c in v]
+			v = t2twp(v) if twp else v  # s2t -> s2twp
+			codepoints_k = tuple(ord(c) for c in k)
+			codepoints_v = tuple(ord(c) for c in v)
 			if all(codepoint in codepoints_tonggui for codepoint in codepoints_k) \
 			and all(codepoint in codepoints_font for codepoint in codepoints_v):
-				entries.append((codepoints_k, codepoints_v))
+				entries[codepoints_k] = codepoints_v
 				codepoints.update(codepoints_v)
 
-	return entries, codepoints
+	if twp:
+		with open('cache/TWPhrases.txt') as f:  # t2twp
+			for line in f:
+				k, vx = line.rstrip('\n').split('\t')
+				v = vx.split(' ')[0]  # Only select the first candidate
+				k = t2s(k)  # t2twp -> s2twp
+				codepoints_k = tuple(ord(c) for c in k)
+				codepoints_v = tuple(ord(c) for c in v)
+				if all(codepoint in codepoints_tonggui for codepoint in codepoints_k) \
+				and all(codepoint in codepoints_font for codepoint in codepoints_v):
+					entries[codepoints_k] = codepoints_v
+					codepoints.update(codepoints_v)
+
+	# Sort from longest to shortest to force longest match
+	return sorted(((k, v) for k, v in entries.items()), key=lambda k_v: (-len(k_v[0]), k_v[0])), codepoints
 
 def disassociate_codepoint_and_glyph_name(obj, codepoint, glyph_name):
 	'''
@@ -293,38 +316,44 @@ def create_pseu2word_table(obj, feature_name, conversions):
 	}
 	obj['GSUB']['lookupOrder'].append('pseu2word')
 
-def build_fanwunming_name_header(style, version, date):
+def build_fanwunming_name_header(style, version, date, twp=False):
 	with open('build/name.json') as f:
 		name_header = json.load(f)
 
 	for item in name_header:
 		item['nameString'] = item['nameString'] \
-			.replace('<Style>', style) \
-			.replace('<Version>', version) \
-			.replace('<Date>', date)
+		.replace('<Style>', style) \
+		.replace('<Version>', version) \
+		.replace('<Date>', date)
+
+		if twp:
+			item['nameString'] = item['nameString'] \
+			.replace('繁媛明朝', '繁媛明朝 TW') \
+			.replace('Fan Wun Ming', 'Fan Wun Ming TW') \
+			.replace('FanWunMing', 'FanWunMing-TW')
 
 	return name_header
 
-def modify_metadata(obj):
+def modify_metadata(obj, twp=False):
 	style = next(item['nameString'] for item in obj['name'] if item['nameID'] == 17)
 	today = date.today().strftime('%b %d, %Y')
 
-	name_header = build_fanwunming_name_header(style, str(FONT_VERSION), today)
+	name_header = build_fanwunming_name_header(style, str(FONT_VERSION), today, twp=twp)
 
 	obj['head']['fontRevision'] = FONT_VERSION
 	obj['name'] = name_header
 
-def build_dest_path_from_src_path(path):
+def build_dest_path_from_src_path(path, twp=False):
 	'''
 	>>> build_dest_path_from_src_path('cache/GenYoMin-R.ttc')
 	'output/FanWunMing-R.ttf'
 	'''
 	return path \
-		.replace('cache/', 'output/') \
-		.replace('GenYoMin', 'FanWunMing') \
-		.replace('ttc', 'ttf')
+	.replace('cache/', 'output/') \
+	.replace('GenYoMin', 'FanWunMing' + ('-TW' if twp else '')) \
+	.replace('ttc', 'ttf')
 
-def go(path):
+def go(path, twp=False):
 	font = load_font(path, ttc_index=0)
 
 	codepoints_font = build_codepoints_font(font)
@@ -332,10 +361,10 @@ def go(path):
 
 	codepoints_final = codepoints_tonggui | build_codepoints_non_han() & codepoints_font
 
-	entries_char, codepoints_char = build_opencc_char_table(codepoints_tonggui, codepoints_font)
+	entries_char, codepoints_char = build_opencc_char_table(codepoints_tonggui, codepoints_font, twp=twp)
 	codepoints_final |= codepoints_char
 
-	entries_word, codepoints_word = build_opencc_word_table(codepoints_tonggui, codepoints_font)
+	entries_word, codepoints_word = build_opencc_word_table(codepoints_tonggui, codepoints_font, twp=twp)
 	codepoints_final |= codepoints_word
 
 	remove_codepoints(font, codepoints_font - codepoints_final)
@@ -367,13 +396,15 @@ def go(path):
 	create_char2char_table(font, feature_name, char2char_table)
 	create_pseu2word_table(font, feature_name, pseu2word_table)
 
-	modify_metadata(font)
-	save_font(font, build_dest_path_from_src_path(path))
+	modify_metadata(font, twp=twp)
+	save_font(font, build_dest_path_from_src_path(path, twp=twp))
 
-def main():
-	prepare_files()
-	for path in glob('cache/GenYoMin-*.ttc'):
-		go(path)
+prepare_files()
 
-if __name__ == '__main__':
-	main()
+# Initialize OpenCC converters
+t2s = OpenCC('t2s').convert
+t2twp = OpenCC('./build/t2twp').convert
+
+for path in glob('cache/GenYoMin-*.ttc'):
+	go(path)
+	go(path, twp=True)

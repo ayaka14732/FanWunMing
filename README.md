@@ -1,4 +1,4 @@
-# Fan Wun Ming 繁媛明朝
+# Fan Wun Ming 繁媛明朝 [![](https://github.com/ayaka14732/FanWunMing/workflows/Build/badge.svg)](https://github.com/ayaka14732/FanWunMing/actions?query=workflow%3ABuild)
 
 ![](demo.png)
 
@@ -17,8 +17,8 @@ See [release page](https://github.com/ayaka14732/FanWunMing/releases).<br/>
 
 ## Build 構建
 
-Install Python and [otfcc](https://github.com/caryll/otfcc). Then run `python build/main.py`.<br/>
-安裝 Python 與 [otfcc](https://github.com/caryll/otfcc)，然後執行 `python build/main.py`。
+See [build script](.github/workflows/build.yml).<br/>
+參見[建置腳本](.github/workflows/build.yml)。
 
 ## License 授權條款
 
