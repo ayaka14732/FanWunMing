@@ -15,12 +15,12 @@ See [_Correctly Implement a Simplified-Chinese-To-Traditional-Chinese Font_](htt
 See [release page](https://github.com/ayaka14732/FanWunMing/releases).<br/>
 見[發佈頁](https://github.com/ayaka14732/FanWunMing/releases)。
 
+## Build 構建
+
+Install Python and [otfcc](https://github.com/caryll/otfcc). Then run `python build/main.py`.<br/>
+安裝 Python 與 [otfcc](https://github.com/caryll/otfcc)，然後執行 `python build/main.py`。
+
 ## License 授權條款
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.<br/>
 本字型以 SIL Open Font License 版本 1.1 發佈。
-
-## Help wanted 徵求協助
-
-I hope to add a script to automate the build process.<br/>
-我希望添加一個腳本以自動化構建。

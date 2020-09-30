@@ -1,0 +1,233 @@
+[
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1028,
+        "nameID": 1,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1028,
+        "nameID": 2,
+        "nameString": "Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1028,
+        "nameID": 4,
+        "nameString": "繁媛明朝 Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1028,
+        "nameID": 16,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1028,
+        "nameID": 17,
+        "nameString": "<Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 0,
+        "nameString": "Copyright © 2020 Ayaka Mikazuki."
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 1,
+        "nameString": "Fan Wun Ming"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 2,
+        "nameString": "Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 3,
+        "nameString": "Fan Wun Ming <Style>:Version <Version>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 4,
+        "nameString": "Fan Wun Ming <Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 5,
+        "nameString": "Version <Version>;<Date>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 6,
+        "nameString": "FanWunMing-<Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 9,
+        "nameString": "Fan Wun Ming is a font software designed by Ayaka MIKAZUKI 三日月綾香.\r\nThe font is derived from GenYoMin TW, designed by ButTaiwan.\r\nGenYoMin TW is derived from Source Han Serif, designed by Ryoko NISHIZUKA 西塚涼子 (kana & ideographs); Frank Grießhammer (Latin, Greek & Cyrillic); Wenlong ZHANG 张文龙 (bopomofo); Sandoll Communications 산돌커뮤니케이션, Soohyun PARK 박수현, Yejin WE 위예진 & Donghoon HAN 한동훈 (hangul elements, letters & syllables)."
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 12,
+        "nameString": "https://ayaka.shn.hk/"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 13,
+        "nameString": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software."
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 14,
+        "nameString": "http://scripts.sil.org/OFL"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 16,
+        "nameString": "Fan Wun Ming"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1033,
+        "nameID": 17,
+        "nameString": "<Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1041,
+        "nameID": 1,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1041,
+        "nameID": 2,
+        "nameString": "Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1041,
+        "nameID": 4,
+        "nameString": "繁媛明朝 Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1041,
+        "nameID": 16,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 1041,
+        "nameID": 17,
+        "nameString": "<Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 2052,
+        "nameID": 1,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 2052,
+        "nameID": 2,
+        "nameString": "Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 2052,
+        "nameID": 4,
+        "nameString": "繁媛明朝 Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 2052,
+        "nameID": 16,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 2052,
+        "nameID": 17,
+        "nameString": "<Style>"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 3076,
+        "nameID": 1,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 3076,
+        "nameID": 2,
+        "nameString": "Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 3076,
+        "nameID": 4,
+        "nameString": "繁媛明朝 Regular"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 3076,
+        "nameID": 16,
+        "nameString": "繁媛明朝"
+    },
+    {
+        "platformID": 3,
+        "encodingID": 1,
+        "languageID": 3076,
+        "nameID": 17,
+        "nameString": "<Style>"
+    }
+]
