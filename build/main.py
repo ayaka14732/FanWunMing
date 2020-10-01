@@ -7,7 +7,7 @@ from opencc import OpenCC
 import os
 import subprocess
 
-FONT_VERSION = 1.002
+FONT_VERSION = 1.003
 
 # Define the max entries size in a subtable.
 # We define a number that is small enough here, so that the entries will not exceed
@@ -24,21 +24,6 @@ def grouper(lst, n, start=0):
 	while start < len(lst):
 		yield lst[start:start+n]
 		start += n
-
-def prepare_files():
-	'''Download necessary files for the next steps.'''
-	os.system('mkdir -p output')
-	os.system('wget -q -nc -P cache https://github.com/ButTaiwan/genyo-font/releases/download/v1.501/GenYoMin.zip')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STCharacters.txt')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/STPhrases.txt')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesIT.txt')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesName.txt')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWPhrasesOther.txt')
-	os.system('wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.3/data/TWVariants.txt')
-	os.system('cat cache/TWPhrasesIT.txt cache/TWPhrasesName.txt cache/TWPhrasesOther.txt > cache/TWPhrases.txt')
-	os.system('wget -q -nc -P cache https://gist.githubusercontent.com/fatum12/941a10f31ac1ad48ccbc/raw/59d7e29b307ae3439317a975ef390cd729f9bc17/ttc2ttf.pe')
-	os.system('wget -q -nc -P cache https://raw.githubusercontent.com/rime-aca/character_set/e7d009a8a185a83f62ad2c903565b8bb85719221/通用規範漢字表.txt')
-	os.system('unzip -n -d cache cache/GenYoMin.zip')
 
 # An opentype font can hold at most 65535 glyphs.
 MAX_GLYPH_COUNT = 65535
@@ -399,12 +384,11 @@ def go(path, twp=False):
 	modify_metadata(font, twp=twp)
 	save_font(font, build_dest_path_from_src_path(path, twp=twp))
 
-prepare_files()
+if __name__ == '__main__':
+	# Initialize OpenCC converters
+	t2s = OpenCC('t2s').convert
+	t2twp = OpenCC('./build/t2twp').convert
 
-# Initialize OpenCC converters
-t2s = OpenCC('t2s').convert
-t2twp = OpenCC('./build/t2twp').convert
-
-for path in glob('cache/GenYoMin-*.ttc'):
-	go(path)
-	go(path, twp=True)
+	for path in glob('cache/GenYoMin-*.ttc'):
+		go(path)
+		go(path, twp=True)

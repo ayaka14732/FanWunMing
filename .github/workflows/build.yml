@@ -23,6 +23,7 @@ jobs:
         python -m pip install -r requirements.txt
     - name: Build
       run: |
+        build/prepare.sh
         python build/main.py
     - name: Upload artifact
       uses: actions/upload-artifact@v2
