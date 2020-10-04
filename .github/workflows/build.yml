@@ -25,8 +25,15 @@ jobs:
       run: |
         build/prepare.sh
         python build/main.py
-    - name: Upload artifact
+    - name: Upload FanWunMing
       uses: actions/upload-artifact@v2
       with:
-        name: Font files
-        path: output/*.ttf
+        name: FanWunMing
+        path: |
+          output/FanWunMing-*.ttf
+          !output/FanWunMing-TW-*.ttf
+    - name: Upload FanWunMing-TW
+      uses: actions/upload-artifact@v2
+      with:
+        name: FanWunMing-TW
+        path: output/FanWunMing-TW-*.ttf

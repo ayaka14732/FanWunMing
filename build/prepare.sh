@@ -1,13 +1,8 @@
 #!/bin/sh
-mkdir -p output
-wget -q -nc -P cache https://github.com/ButTaiwan/genyo-font/releases/download/v1.501/GenYoMin.zip
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/STCharacters.txt
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/STPhrases.txt
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/TWPhrasesIT.txt
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/TWPhrasesName.txt
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/TWPhrasesOther.txt
-wget -q -nc -P cache https://cdn.jsdelivr.net/npm/opencc-data@1.0.4/data/TWVariants.txt
-cat cache/TWPhrasesIT.txt cache/TWPhrasesName.txt cache/TWPhrasesOther.txt > cache/TWPhrases.txt
-wget -q -nc -P cache https://gist.githubusercontent.com/fatum12/941a10f31ac1ad48ccbc/raw/59d7e29b307ae3439317a975ef390cd729f9bc17/ttc2ttf.pe
-wget -q -nc -P cache https://raw.githubusercontent.com/rime-aca/character_set/e7d009a8a185a83f62ad2c903565b8bb85719221/通用規範漢字表.txt
-unzip -q -n -d cache cache/GenYoMin.zip "*.ttc"
+mkdir -p cache output
+cd cache
+curl -LsSO https://github.com/ButTaiwan/genyo-font/releases/download/v1.501/GenYoMin.zip
+curl -LsSZ --remote-name-all https://cdn.jsdelivr.net/npm/opencc-data@1.0.5/data/{STCharacters.txt,STPhrases.txt,TWPhrasesIT.txt,TWPhrasesName.txt,TWPhrasesOther.txt,TWVariants.txt}
+curl -LsSo 通用規範漢字表.txt https://raw.githubusercontent.com/rime-aca/character_set/e7d009a8a185a83f62ad2c903565b8bb85719221/%E9%80%9A%E7%94%A8%E8%A6%8F%E7%AF%84%E6%BC%A2%E5%AD%97%E8%A1%A8.txt
+cat TWPhrasesIT.txt TWPhrasesName.txt TWPhrasesOther.txt > TWPhrases.txt
+unzip -q -n GenYoMin.zip "*.ttc"

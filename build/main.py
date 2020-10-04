@@ -1,29 +1,51 @@
 from collections import defaultdict
 from datetime import date
 from glob import glob
-from itertools import chain
+from itertools import chain, groupby
 import json
 from opencc import OpenCC
 import os
 import subprocess
 
-FONT_VERSION = 1.003
+FONT_VERSION = 1.004
 
 # Define the max entries size in a subtable.
 # We define a number that is small enough here, so that the entries will not exceed
 # the size limit.
 SUBTABLE_MAX_COUNT = 4000
 
-# This function is used to split a GSUB table into several subtables.
-def grouper(lst, n, start=0):
+# The following two functions are used to split a GSUB table into several subtables.
+def grouper(iterable, n=SUBTABLE_MAX_COUNT):
 	'''
 	Split a list into chunks of size n.
-	>>> list(grouper([1, 2, 3, 4, 5], 2))
+	>>> list(grouper([1, 2, 3, 4, 5], n=2))
 	[[1, 2], [3, 4], [5]]
+	>>> list(grouper([1, 2, 3, 4, 5, 6], n=2))
+	[[1, 2], [3, 4], [5, 6]]
 	'''
-	while start < len(lst):
-		yield lst[start:start+n]
-		start += n
+	iterator = iter(iterable)
+	while True:
+		lst = []
+		try:
+			for _ in range(n):
+				lst.append(next(iterator))
+		except StopIteration:
+			if lst:
+				yield lst
+			break
+		yield lst
+
+def grouper2(iterable, n=SUBTABLE_MAX_COUNT, key=None):
+	'''
+	Split a iterator into chunks of maximum size n by the given key.
+	>>> list(grouper2(['AA', 'BBB', 'CCC', 'DDD', 'EE'], n=3, key=len))
+	[['AA'], ['BBB', 'CCC', 'DDD'], ['EE']]
+	>>> list(grouper2(['AA', 'BBB', 'CCC', 'DDD', 'EE'], n=2, key=len))
+	[['AA'], ['BBB', 'CCC'], ['DDD'], ['EE']]
+	'''
+	for _, vx in groupby(iterable, key=key):
+		for vs in grouper(vx, n):
+			yield vs
 
 # An opentype font can hold at most 65535 glyphs.
 MAX_GLYPH_COUNT = 65535
@@ -142,7 +164,8 @@ def build_opencc_word_table(codepoints_tonggui, codepoints_font, twp=False):
 					codepoints.update(codepoints_v)
 
 	# Sort from longest to shortest to force longest match
-	return sorted(((k, v) for k, v in entries.items()), key=lambda k_v: (-len(k_v[0]), k_v[0])), codepoints
+	conversion_item_len = lambda conversion_item: len(conversion_item[0])
+	return sorted(entries.items(), key=conversion_item_len, reverse=True), codepoints
 
 def disassociate_codepoint_and_glyph_name(obj, codepoint, glyph_name):
 	'''
@@ -275,29 +298,34 @@ def insert_empty_feature(obj, feature_name):
 	obj['GSUB']['features'][feature_name] = []
 
 def create_word2pseu_table(obj, feature_name, conversions):
+	conversion_item_len = lambda conversion_item: len(conversion_item[0])
+	subtables = [{'substitutions': [{'from': glyph_names_k, 'to': pseudo_glyph_name} for glyph_names_k, pseudo_glyph_name in subtable]} for subtable in grouper2(conversions, key=conversion_item_len)]  # {from: [a1, a2, ...], to: b}
 	obj['GSUB']['features'][feature_name].append('word2pseu')
 	obj['GSUB']['lookups']['word2pseu'] = {
 		'type': 'gsub_ligature',
 		'flags': {},
-		'subtables': [{'substitutions': subtable} for subtable in grouper(conversions, SUBTABLE_MAX_COUNT)]
+		'subtables': subtables
 	}
 	obj['GSUB']['lookupOrder'].append('word2pseu')
 
 def create_char2char_table(obj, feature_name, conversions):
+	subtables = [{k: v for k, v in subtable} for subtable in grouper(conversions)]
 	obj['GSUB']['features'][feature_name].append('char2char')
 	obj['GSUB']['lookups']['char2char'] = {
 		'type': 'gsub_single',
 		'flags': {},
-		'subtables': [{k: v for k, v in subtable} for subtable in grouper(conversions, SUBTABLE_MAX_COUNT)]
+		'subtables': subtables
 	}
 	obj['GSUB']['lookupOrder'].append('char2char')
 
 def create_pseu2word_table(obj, feature_name, conversions):
+	conversion_item_len = lambda conversion_item: len(conversion_item[1])
+	subtables = [{k: v for k, v in subtable} for subtable in grouper2(conversions, key=conversion_item_len)]
 	obj['GSUB']['features'][feature_name].append('pseu2word')
 	obj['GSUB']['lookups']['pseu2word'] = {
 		'type': 'gsub_multiple',
 		'flags': {},
-		'subtables': [{k: v for k, v in subtable} for subtable in grouper(conversions, SUBTABLE_MAX_COUNT)]
+		'subtables': subtables
 	}
 	obj['GSUB']['lookupOrder'].append('pseu2word')
 
@@ -341,6 +369,8 @@ def build_dest_path_from_src_path(path, twp=False):
 def go(path, twp=False):
 	font = load_font(path, ttc_index=0)
 
+	# Determine the final Unicode range by the original font and OpenCC convert tables
+
 	codepoints_font = build_codepoints_font(font)
 	codepoints_tonggui = build_codepoints_tonggui() & codepoints_font
 
@@ -358,6 +388,8 @@ def go(path, twp=False):
 	available_glyph_count = MAX_GLYPH_COUNT - get_glyph_count(font)
 	assert available_glyph_count >= len(entries_word)
 
+	# Build glyph substitution tables and insert into font
+
 	word2pseu_table = []
 	char2char_table = []
 	pseu2word_table = []
@@ -367,7 +399,7 @@ def go(path, twp=False):
 		glyph_names_k = [codepoint_to_glyph_name(font, codepoint) for codepoint in codepoints_k]
 		glyph_names_v = [codepoint_to_glyph_name(font, codepoint) for codepoint in codepoints_v]
 		insert_empty_glyph(font, pseudo_glyph_name)
-		word2pseu_table.append({'from': glyph_names_k, 'to': pseudo_glyph_name})
+		word2pseu_table.append((glyph_names_k, pseudo_glyph_name))
 		pseu2word_table.append((pseudo_glyph_name, glyph_names_v))
 
 	for codepoint_k, codepoint_v in entries_char:
