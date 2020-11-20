@@ -348,11 +348,14 @@ def build_fanwunming_name_header(style, version, date, twp=False):
 	elif style == 'H':
 		typographic_subfamily_name = 'Heavy'
 
+	font_family_style = '' if style in ('R', 'B') else f' {typographic_subfamily_name}'
+
 	subfamily_name = 'Bold' if style == 'B' else 'Regular'
 
 	for item in name_header:
 		item['nameString'] = item['nameString'] \
 		.replace('<Typographic Subfamily Name>', typographic_subfamily_name) \
+		.replace('<Font Family Style>', font_family_style) \
 		.replace('<Subfamily Name>', subfamily_name) \
 		.replace('<Version>', version) \
 		.replace('<Date>', date)
