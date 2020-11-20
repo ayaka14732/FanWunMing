@@ -1,8 +1,7 @@
 name: Build
 
 on:
-  push:
-    branches: [ main ]
+  push
 
 jobs:
   build:
@@ -13,10 +12,10 @@ jobs:
       run: |
         brew tap caryll/tap
         brew install otfcc-mac64
-    - name: Set up Python 3.8
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: '3.x'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -25,15 +24,10 @@ jobs:
       run: |
         build/prepare.sh
         python build/main.py
-    - name: Upload FanWunMing
+    - name: Copy license file
+      run: cp LICENSE output
+    - name: Upload font files
       uses: actions/upload-artifact@v2
       with:
         name: FanWunMing
-        path: |
-          output/FanWunMing-*.ttf
-          !output/FanWunMing-TW-*.ttf
-    - name: Upload FanWunMing-TW
-      uses: actions/upload-artifact@v2
-      with:
-        name: FanWunMing-TW
-        path: output/FanWunMing-TW-*.ttf
+        path: output/*
