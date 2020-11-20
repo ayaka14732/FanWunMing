@@ -4,21 +4,21 @@
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 1,
-        "nameString": "繁媛明朝"
+        "nameString": "繁媛明朝<Font Family Style>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 2,
-        "nameString": "Regular"
+        "nameString": "<Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 4,
-        "nameString": "繁媛明朝 Regular"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -32,7 +32,7 @@
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 17,
-        "nameString": "<Style>"
+        "nameString": "<Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -46,28 +46,28 @@
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 1,
-        "nameString": "Fan Wun Ming"
+        "nameString": "Fan Wun Ming<Font Family Style>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 2,
-        "nameString": "Regular"
+        "nameString": "<Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 3,
-        "nameString": "Fan Wun Ming <Style>:Version <Version>"
+        "nameString": "Fan Wun Ming <Typographic Subfamily Name>:Version <Version>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 4,
-        "nameString": "Fan Wun Ming <Style>"
+        "nameString": "Fan Wun Ming <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -81,7 +81,7 @@
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 6,
-        "nameString": "FanWunMing-<Style>"
+        "nameString": "FanWunMing-<Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -123,63 +123,28 @@
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 17,
-        "nameString": "<Style>"
-    },
-    {
-        "platformID": 3,
-        "encodingID": 1,
-        "languageID": 1041,
-        "nameID": 1,
-        "nameString": "繁媛明朝"
-    },
-    {
-        "platformID": 3,
-        "encodingID": 1,
-        "languageID": 1041,
-        "nameID": 2,
-        "nameString": "Regular"
-    },
-    {
-        "platformID": 3,
-        "encodingID": 1,
-        "languageID": 1041,
-        "nameID": 4,
-        "nameString": "繁媛明朝 Regular"
-    },
-    {
-        "platformID": 3,
-        "encodingID": 1,
-        "languageID": 1041,
-        "nameID": 16,
-        "nameString": "繁媛明朝"
-    },
-    {
-        "platformID": 3,
-        "encodingID": 1,
-        "languageID": 1041,
-        "nameID": 17,
-        "nameString": "<Style>"
+        "nameString": "<Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 1,
-        "nameString": "繁媛明朝"
+        "nameString": "繁媛明朝<Font Family Style>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 2,
-        "nameString": "Regular"
+        "nameString": "<Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 4,
-        "nameString": "繁媛明朝 Regular"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -193,28 +158,28 @@
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 17,
-        "nameString": "<Style>"
+        "nameString": "<Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 1,
-        "nameString": "繁媛明朝"
+        "nameString": "繁媛明朝<Font Family Style>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 2,
-        "nameString": "Regular"
+        "nameString": "<Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 4,
-        "nameString": "繁媛明朝 Regular"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
@@ -228,6 +193,6 @@
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 17,
-        "nameString": "<Style>"
+        "nameString": "<Typographic Subfamily Name>"
     }
 ]

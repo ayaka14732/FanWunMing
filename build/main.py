@@ -333,9 +333,23 @@ def build_fanwunming_name_header(style, version, date, twp=False):
 	with open('build/name.json') as f:
 		name_header = json.load(f)
 
+	typographic_subfamily_name = {
+		'EL': 'ExtraLight',
+		'L': 'Light',
+		'R': 'Regular',
+		'M': 'Medium',
+		'SB': 'SemiBold',
+		'B': 'Bold',
+		'H': 'Heavy',
+	}[style]
+	font_family_style = '' if style in ('R', 'B') else f' {typographic_subfamily_name}'
+	subfamily_name = 'Bold' if style == 'B' else 'Regular'
+
 	for item in name_header:
 		item['nameString'] = item['nameString'] \
-		.replace('<Style>', style) \
+		.replace('<Typographic Subfamily Name>', typographic_subfamily_name) \
+		.replace('<Font Family Style>', font_family_style) \
+		.replace('<Subfamily Name>', subfamily_name) \
 		.replace('<Version>', version) \
 		.replace('<Date>', date)
 
