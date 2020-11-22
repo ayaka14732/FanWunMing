@@ -3,7 +3,6 @@ from datetime import date
 from glob import glob
 from itertools import chain, groupby
 import json
-from opencc import OpenCC
 import os
 import subprocess
 
@@ -83,10 +82,13 @@ def get_glyph_count(obj):
 	'''Get the total numbers of glyph in a font.'''
 	return len(obj['glyph_order'])
 
-def build_codepoints_tonggui():
-	'''Build a set of all the codepoints in Tongyong Guifan Hanzi Biao (通用规范汉字表).'''
-	with open('cache/通用規範漢字表.txt') as f:
-		return {ord(line[0]) for line in f if line and not line.startswith('#')}
+def build_codepoints_han():
+	'''Build a set of codepoints of Han characters to be included.'''
+	with open('cache/code_points_han.txt') as f:
+		s = set()
+		for line in f:
+			s.add(int(line))
+		return s
 
 def build_codepoints_font(obj):
 	'''Build a set of all the codepoints in a font.'''
@@ -110,62 +112,36 @@ def build_codepoints_non_han():
 		range(0xFF61, 0xFF64 + 1),
 	))
 
-# We restrict the Simplified Chinese characters (on the left side of the OpenCC dictionary
-# file) to the range of Tongyong Guifan Hanzi Biao, and discard those conversions that are
-# out of range. The remained conversions are stored in the entries variable.
-#
-# Then we calculate the range of “Which Traditional Chinese characters are needed if we
-# convert Tongyong Guifan Hanzi Biao to Traditional Chinese”. The range is stored in the
-# codepoints variable.
-def build_opencc_char_table(codepoints_tonggui, codepoints_font, twp=False):
+def build_opencc_char_table(codepoints_font, twp=False):
 	entries = []
-	codepoints = set()
+	twp_suffix = '_twp' if twp else ''
 
-	with open('cache/STCharacters.txt') as f:  # s2t
+	with open(f'cache/convert_table_chars{twp_suffix}.txt') as f:
 		for line in f:
-			k, vx = line.rstrip('\n').split('\t')
-			v = vx.split(' ')[0]  # Only select the first candidate
-			v = t2twp(v) if twp else v  # s2t -> s2twp
+			k, v = line.rstrip('\n').split('\t')
 			codepoint_k = ord(k)
 			codepoint_v = ord(v)
-			if codepoint_k in codepoints_tonggui and codepoint_v in codepoints_font:
+			if codepoint_k in codepoints_font \
+			and codepoint_v in codepoints_font:  # TODO FIXME: codepoint_k in codepoints_font should be unnecessary
 				entries.append((codepoint_k, codepoint_v))
-				codepoints.add(codepoint_v)
 
-	return entries, codepoints
+	return entries
 
-def build_opencc_word_table(codepoints_tonggui, codepoints_font, twp=False):
-	entries = {}
-	codepoints = set()
+def build_opencc_word_table(codepoints_font, twp=False):
+	entries = []
+	twp_suffix = '_twp' if twp else ''
 
-	with open('cache/STPhrases.txt') as f:  # s2t
+	with open(f'cache/convert_table_words{twp_suffix}.txt') as f:
 		for line in f:
-			k, vx = line.rstrip('\n').split('\t')
-			v = vx.split(' ')[0]  # Only select the first candidate
-			v = t2twp(v) if twp else v  # s2t -> s2twp
+			k, v = line.rstrip('\n').split('\t')
 			codepoints_k = tuple(ord(c) for c in k)
 			codepoints_v = tuple(ord(c) for c in v)
-			if all(codepoint in codepoints_tonggui for codepoint in codepoints_k) \
-			and all(codepoint in codepoints_font for codepoint in codepoints_v):
-				entries[codepoints_k] = codepoints_v
-				codepoints.update(codepoints_v)
+			if all(codepoint in codepoints_font for codepoint in codepoints_k) \
+			and all(codepoint in codepoints_font for codepoint in codepoints_v):  # TODO FIXME: the first line should be unnecessary
+				entries.append((codepoints_k, codepoints_v))
 
-	if twp:
-		with open('cache/TWPhrases.txt') as f:  # t2twp
-			for line in f:
-				k, vx = line.rstrip('\n').split('\t')
-				v = vx.split(' ')[0]  # Only select the first candidate
-				k = t2s(k)  # t2twp -> s2twp
-				codepoints_k = tuple(ord(c) for c in k)
-				codepoints_v = tuple(ord(c) for c in v)
-				if all(codepoint in codepoints_tonggui for codepoint in codepoints_k) \
-				and all(codepoint in codepoints_font for codepoint in codepoints_v):
-					entries[codepoints_k] = codepoints_v
-					codepoints.update(codepoints_v)
-
-	# Sort from longest to shortest to force longest match
-	conversion_item_len = lambda conversion_item: len(conversion_item[0])
-	return sorted(entries.items(), key=conversion_item_len, reverse=True), codepoints
+	# The entries are already Sorted from longest to shortest to force longest match
+	return entries
 
 def disassociate_codepoint_and_glyph_name(obj, codepoint, glyph_name):
 	'''
@@ -381,20 +357,15 @@ def build_dest_path_from_src_path(path, twp=False):
 	.replace('ttc', 'ttf')
 
 def go(path, twp=False):
-	font = load_font(path, ttc_index=0)
+	font = load_font(path, ttc_index=0)  # `ttc_index` 0: GenYoMin-TW; 1: GenYoMin-JP
 
 	# Determine the final Unicode range by the original font and OpenCC convert tables
 
 	codepoints_font = build_codepoints_font(font)
-	codepoints_tonggui = build_codepoints_tonggui() & codepoints_font
+	entries_char = build_opencc_char_table(codepoints_font, twp=twp)
+	entries_word = build_opencc_word_table(codepoints_font, twp=twp)
 
-	codepoints_final = codepoints_tonggui | build_codepoints_non_han() & codepoints_font
-
-	entries_char, codepoints_char = build_opencc_char_table(codepoints_tonggui, codepoints_font, twp=twp)
-	codepoints_final |= codepoints_char
-
-	entries_word, codepoints_word = build_opencc_word_table(codepoints_tonggui, codepoints_font, twp=twp)
-	codepoints_final |= codepoints_word
+	codepoints_final = (build_codepoints_non_han() | build_codepoints_han()) & codepoints_font
 
 	remove_codepoints(font, codepoints_font - codepoints_final)
 	clean_unused_glyphs(font)
@@ -431,10 +402,6 @@ def go(path, twp=False):
 	save_font(font, build_dest_path_from_src_path(path, twp=twp))
 
 if __name__ == '__main__':
-	# Initialize OpenCC converters
-	t2s = OpenCC('t2s').convert
-	t2twp = OpenCC('./build/t2twp').convert
-
 	for path in glob('cache/GenYoMin-*.ttc'):
 		go(path)
 		go(path, twp=True)

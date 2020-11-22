@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 100;
+  src: url("../output/FanWunMing-EL.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 300;
+  src: url("../output/FanWunMing-L.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 400;
+  src: url("../output/FanWunMing-R.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 500;
+  src: url("../output/FanWunMing-M.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 600;
+  src: url("../output/FanWunMing-SB.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 700;
+  src: url("../output/FanWunMing-B.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test";
+  font-weight: 900;
+  src: url("../output/FanWunMing-H.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 100;
+  src: url("../output/FanWunMing-TW-EL.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 300;
+  src: url("../output/FanWunMing-TW-L.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 400;
+  src: url("../output/FanWunMing-TW-R.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 500;
+  src: url("../output/FanWunMing-TW-M.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 600;
+  src: url("../output/FanWunMing-TW-SB.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 700;
+  src: url("../output/FanWunMing-TW-B.ttf") format("truetype");
+}
+@font-face {
+  font-family: "FanWunMing-Test-TW";
+  font-weight: 900;
+  src: url("../output/FanWunMing-TW-H.ttf") format("truetype");
+}
+
+:lang(en) { font-family: sans-serif, sans-serif; }
+:lang(zh-CN) { font-family: 'FanWunMing-Test', serif; }
+:lang(zh-CN).tw { font-family: 'FanWunMing-Test-TW', serif; }
+
+.w100 { font-weight: 100; }
+.w300 { font-weight: 300; }
+.w400 { font-weight: 400; }
+.w500 { font-weight: 500; }
+.w600 { font-weight: 600; }
+.w700 { font-weight: 700; }
+.w900 { font-weight: 900; }
