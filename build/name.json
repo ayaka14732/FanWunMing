@@ -4,14 +4,14 @@
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 1,
-        "nameString": "繁媛明朝<Font Family Style>"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1028,
         "nameID": 2,
-        "nameString": "<Subfamily Name>"
+        "nameString": "Regular"
     },
     {
         "platformID": 3,
@@ -46,14 +46,14 @@
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 1,
-        "nameString": "Fan Wun Ming<Font Family Style>"
+        "nameString": "Fan Wun Ming <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 1033,
         "nameID": 2,
-        "nameString": "<Subfamily Name>"
+        "nameString": "Regular"
     },
     {
         "platformID": 3,
@@ -130,14 +130,14 @@
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 1,
-        "nameString": "繁媛明朝<Font Family Style>"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 2052,
         "nameID": 2,
-        "nameString": "<Subfamily Name>"
+        "nameString": "Regular"
     },
     {
         "platformID": 3,
@@ -165,14 +165,14 @@
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 1,
-        "nameString": "繁媛明朝<Font Family Style>"
+        "nameString": "繁媛明朝 <Typographic Subfamily Name>"
     },
     {
         "platformID": 3,
         "encodingID": 1,
         "languageID": 3076,
         "nameID": 2,
-        "nameString": "<Subfamily Name>"
+        "nameString": "Regular"
     },
     {
         "platformID": 3,
