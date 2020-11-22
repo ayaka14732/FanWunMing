@@ -4,7 +4,7 @@
         "type": "mmseg",
         "dict": {
             "type": "text",
-            "file": "../cache/TWPhrases.txt"
+            "file": "../opencc_data/TWPhrases.txt"
         }
     },
     "conversion_chain": [{
@@ -12,10 +12,10 @@
             "type": "group",
             "dicts": [{
                 "type": "text",
-                "file": "../cache/TWPhrases.txt"
+                "file": "../opencc_data/TWPhrases.txt"
             }, {
                 "type": "text",
-                "file": "../cache/TWVariants.txt"
+                "file": "../opencc_data/TWVariants.txt"
             }]
         }
     }]
