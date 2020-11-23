@@ -6,7 +6,7 @@ import json
 import os
 import subprocess
 
-FONT_VERSION = 1.004
+FONT_VERSION = 1.005
 
 # Define the max entries size in a subtable.
 # We define a number that is small enough here, so that the entries will not exceed
