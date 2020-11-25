@@ -26,6 +26,9 @@ open('opencc_data/HKVariants.txt') as f5:
 			for c in v:
 				s.add(ord(c))
 
+for c in '妳':
+	s.add(ord(c))
+
 with open('cache/code_points_han.txt', 'w') as f:
 	for cp in sorted(s):
 		if cp > 128:  # remove letters in the dictionaries
