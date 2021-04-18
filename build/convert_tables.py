@@ -15,18 +15,14 @@
 # - cache/convert_table_words_twp.txt
 # - cache/convert_table_chars_twp.txt
 
+from itertools import chain
 from opencc import OpenCC
 
 def build_entries(twp=False):
-	with open('opencc_data/STCharacters.txt') as f:  # s2t
-		for line in f:
-			k, vx = line.rstrip('\n').split('\t')
-			v = vx.split(' ')[0]  # Only select the first candidate
-			v = t2twp(v) if twp else v  # s2t -> s2twp
-			yield k, v
-
-	with open('opencc_data/STPhrases.txt') as f:  # s2t
-		for line in f:
+	with open('opencc_data/STCharacters.txt') as f1, \
+	open('opencc_data/STPhrases.txt') as f2, \
+	open('build/extra_convert_table.txt') as f3:  # s2t
+		for line in chain(f1, f2, f3):
 			k, vx = line.rstrip('\n').split('\t')
 			v = vx.split(' ')[0]  # Only select the first candidate
 			v = t2twp(v) if twp else v  # s2t -> s2twp

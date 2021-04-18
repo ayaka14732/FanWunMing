@@ -6,7 +6,7 @@ import json
 import os
 import subprocess
 
-FONT_VERSION = 1.005
+FONT_VERSION = 1.006
 
 # Define the max entries size in a subtable.
 # We define a number that is small enough here, so that the entries will not exceed
@@ -194,7 +194,7 @@ def remove_glyph(obj, glyph_name):
 	# Remove glyph from glyph_order table
 	try:
 		obj['glyph_order'].remove(glyph_name)
-	except ValueError as e:
+	except ValueError:
 		pass
 
 	# Remove glyph from glyf table
