@@ -25,7 +25,7 @@ jobs:
     - name: Download OpenCC data
       run: |
         cd opencc_data
-        curl -LsSZ --remote-name-all https://cdn.jsdelivr.net/npm/opencc-data@1.0.5/data/{STCharacters.txt,STPhrases.txt,TWPhrasesIT.txt,TWPhrasesName.txt,TWPhrasesOther.txt,TWVariants.txt,HKVariants.txt}
+        curl -LsSZ --remote-name-all https://cdn.jsdelivr.net/npm/opencc-data@1.0.6/data/{STCharacters.txt,STPhrases.txt,TWPhrasesIT.txt,TWPhrasesName.txt,TWPhrasesOther.txt,TWVariants.txt,HKVariants.txt}
         cat TWPhrasesIT.txt TWPhrasesName.txt TWPhrasesOther.txt > TWPhrases.txt
     - name: Download GenYoMin font
       run: |
