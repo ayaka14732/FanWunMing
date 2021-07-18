@@ -26,7 +26,7 @@ open('opencc_data/HKVariants.txt') as f5:
 			for c in v:
 				s.add(ord(c))
 
-for c in '妳':
+for c in '妳攞噉㗎冚喺冇哋啲嘢啱佢嘅咁嚟屌咗撚噏瞓𡃁嘥掹孭氹詏噃𨳍掟埞曱甴𥄫𨳊嚿閪冧嬲卌嗻𧨾':
 	s.add(ord(c))
 
 with open('cache/code_points_han.txt', 'w') as f:
