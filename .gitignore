@@ -1,5 +1,6 @@
 .vscode
 .mypy_cache
-/opencc_data
-/cache
+__pycache__
+
+/fonts
 /output
