@@ -24,3 +24,8 @@ See [build script](.github/workflows/build.yml).<br/>
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.<br/>
 本字型以 SIL Open Font License 版本 1.1 發佈。
+
+## See Also 另見
+
+Sans-serif font: [Fan Wun Hak](https://github.com/ayaka14732/FanWunHak).<br/>
+無襯線字體：[繁媛黑體](https://github.com/ayaka14732/FanWunHak)。
