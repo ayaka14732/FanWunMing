@@ -1,1 +1,1 @@
-git+git://github.com/ayaka14732/opencc-font-generator@16c223f7bcaf9d4a9a8e8d5c8e7519931b0c1e5b#egg=OpenCCFontGenerator
+git+https://github.com/ayaka14732/opencc-font-generator@16c223f7bcaf9d4a9a8e8d5c8e7519931b0c1e5b#egg=OpenCCFontGenerator
