@@ -13,9 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: Install otfcc
-      run: |
-        brew tap caryll/tap
-        brew install otfcc-mac64
+      run: brew install caryll/tap/otfcc-mac64
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
