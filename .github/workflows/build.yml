@@ -1,34 +1,36 @@
 name: Build
 
 on:
-  push
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - name: Install otfcc
       run: |
         brew tap caryll/tap
         brew install otfcc-mac64
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v6
       with:
-        python-version: '3.11'
+        python-version: '3.14'
     - name: Install dependencies
       run: |
-        pip install -U pip
-        pip install -U wheel
-        pip install "opencc<1.2"
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
     - name: Build
       run: |
         ./build.sh
     - name: Copy license file
       run: cp LICENSE output
     - name: Upload font files
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: FanWunMing
         path: output/*
