@@ -81,3 +81,6 @@
 .w600 { font-weight: 600; }
 .w700 { font-weight: 700; }
 .w900 { font-weight: 900; }
+
+.spaced { letter-spacing: 2px; }
+.vertical { margin: 2em 0; writing-mode: vertical-rl; }
